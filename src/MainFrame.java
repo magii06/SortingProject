@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 public class MainFrame extends JFrame {
 
+
     private SortPanel sortPanel;
     private JComboBox<String> sortComboBox;
     private JButton sortButton;
@@ -12,10 +13,10 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("Sorting App");
 
-        // Create the sort panel
+        // Creating the sort panel
         sortPanel = new SortPanel();
 
-        // Create the combo box with sorting options
+        // Creating the combo box with sorting options
         sortComboBox = new JComboBox<>(new String[]{"Bubble Sort", "Selection Sort", "Insertion Sort", "Merge Sort", "Quick Sort", "Heap Sort"});
 
         // Create the sort button
@@ -40,4 +41,8 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+    public static void main(String[] args) {
+        MainFrame MainFrame = new MainFrame();
+    }
+
 }

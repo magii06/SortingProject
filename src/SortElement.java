@@ -9,11 +9,20 @@ public class SortElement {
         this.size = size;
     }
 
+
     public ImageIcon getImage() {
         return image;
     }
 
+    public void setImage(ImageIcon image) {
+        this.image = image;
+    }
+
     public int getSize() {
         return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

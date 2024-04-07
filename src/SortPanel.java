@@ -6,21 +6,30 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 public class SortPanel extends JPanel {
 
-    private final List<SortElement> elements;
-
+    private List<SortElement> elements;
     public SortPanel() {
         elements = new ArrayList<>();
-        setPreferredSize(new Dimension(400, 400));
-        setBorder(BorderFactory.createLineBorder(null));
-    }
-
-    public void addElement(ImageIcon image, int size) {
+            for (int i=6;i>0;i--){
+    Path resourceDirectory =
+            Paths.get ("src","resources");
+    String absolutePath =
+            resourceDirectory.toFile().getAbsolutePath();
+    ImageIcon imgIcon = new  ImageIcon(absolutePath+"/Image" +i+ ".png");
+    SortElement se=new SortElement (imgIcon, i);
+    elements.add (se);
+    repaint ();
+}
+    setPreferredSize (new Dimension(2000, 500)); setBorder (BorderFactory.createLineBorder(null));
+        }
+   /* public void addElement(ImageIcon image, int size) {
         elements.add(new SortElement(image, size));
         repaint();
     }
-
+*/
     // Helper method for bubble sort
     private void bubbleSortElements() {
         int n = elements.size();
@@ -41,7 +50,8 @@ public class SortPanel extends JPanel {
                 break;
             }
         }
-        // Helper method for heap sort (basic implementation)
+    }
+    // Helper method for heap sort (basic implementation)
        /* private void heapSortElements() {
             //int n = elements.size(); // Build the heap (rearrange array)
          for (int i = n / 2 - 1; i >= 0; i--) { heapify(elements, n, i); } // One by one extract an element from heap
@@ -66,79 +76,95 @@ public class SortPanel extends JPanel {
 
              private int partition(int low, int high) { int pivot = elements.get(high).getSize(); int i = low - 1; for (int j = low; j < high; j++) { if (elements.get(j).getSize() <= pivot) { i++; SortElement temp = elements.get(i); elements.set(i, elements.get(j)); elements.set(j, temp); } } SortElement temp = elements.get(i + 1); elements.set(i + 1, elements.get(high)); elements.set(high, temp); return i + 1; }
       */
-        // Helper method for merge sort (recursive)
+    // Helper method for merge sort (recursive)
 
-        // Merge function for merge sort
-        private void mergeSortElements(int left, int middle, int right) {
-                    if (left < right) {
-                        middle = (left + right) / 2;
-                        mergeSortElements(left, middle); // Sort first half
-                        mergeSortElements(middle + 1, right); // Sort second half
-                        merge(left, middle, right); // Merge the sorted halves
-                    }
-                }
-       private void merge(){
-            // Create temporary subarrays
-            int n1 = middle - left + 1;
-            int n2 = right - middle;
-            List<SortElement> leftSublist = new ArrayList<>();
-            List<SortElement> rightSublist = new ArrayList<>();
-            for (int i = 0; i < n1; i++) {
-                leftSublist.add(elements.get(left + i));
-            }
-            for (int j = 0; j < n2; j++) {
-                rightSublist.add(elements.get(middle + 1 + j));
-            }
-            // Merge the temporary arrays
-            int i = 0, j = 0, k = left;
-            while (i < n1 && j < n2) {
-                if (leftSublist.get(i).getSize() <= rightSublist.get(j).getSize()) {
-                    elements.set(k, leftSublist.get(i));
-                    i++;
-                } else {
-                    elements.set(k, rightSublist.get(j));
-                    j++;
-                }
-                k++;
-            }
-            // Copy remaining elements
-            while (i < n1) {
+    // Merge function for merge sort
+    private void mergeSortElements(int left, int middle, int right) {
+        if (left < right) {
+            middle = (left + right) / 2;
+            mergeSortElements(left, middle, right); // Sort first half
+            mergeSortElements(middle + 1, middle, right); // Sort second half
+            merge(left, middle, right); // Merge the sorted halves
+        }
+    }
+
+    private void merge(int left, int middle, int right) {
+        // Create temporary subarrays
+        int n1 = middle - left + 1;
+        int n2 = right - middle;
+        List<SortElement> leftSublist = new ArrayList<>();
+        List<SortElement> rightSublist = new ArrayList<>();
+        for (int i = 0; i < n1; i++) {
+            leftSublist.add(elements.get(left + i));
+        }
+        for (int j = 0; j < n2; j++) {
+            rightSublist.add(elements.get(middle + 1 + j));
+        }
+        // Merge the temporary arrays
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (leftSublist.get(i).getSize() <= rightSublist.get(j).getSize()) {
                 elements.set(k, leftSublist.get(i));
                 i++;
-                k++;
-            }
-            while (j < n2) {
+            } else {
                 elements.set(k, rightSublist.get(j));
                 j++;
-                k++;
             }
+            k++;
         }
+        // Copy remaining elements
+        while (i < n1) {
+            elements.set(k, leftSublist.get(i));
+            i++;
+            k++;
+        }
+        while (j < n2) {
+            elements.set(k, rightSublist.get(j));
+            j++;
+            k++;
+        }
+    }
 
 
-// Helper method for insertion sort
-private void insertionSortElements() {
-            n = elements.size();
-            for (int i = 1; i < n; ++i) {
-                SortElement key = elements.get(i);
-                int j = i - 1; // Move elements of arr[0..i-1], that are greater than key, to one position ahead of their current position
- while (j >= 0 && elements.get(j).getSize() > key.getSize()) {
-     elements.set(j + 1, elements.get(j)); j -= 1; }
- elements.set(j + 1, key); } }
-// Helper method for selection sort
-private void selectionSortElements() {
-            n = elements.size();
-            } for (int i = 0; i < n - 1; i++) {
-    int minIndex = i; for (int j = i + 1; j < n; j++) {
-        if (elements.get(j).getSize() < elements.get(minIndex).getSize()) { minIndex = j; } } // Swap the found minimum element with the first element of unsorted subarray
-             SortElement temp = elements.get(i); elements.set(i, elements.get(minIndex)); elements.set(minIndex, temp); } }
+    // Helper method for insertion sort
+    private void insertionSortElements() {
+        int n = elements.size();
+        for (int i = 1; i < n; ++i) {
+            SortElement key = elements.get(i);
+            int j = i - 1; // Move elements of arr[0..i-1], that are greater than key, to one position ahead of their current position
+            while (j >= 0 && elements.get(j).getSize() > key.getSize()) {
+                elements.set(j + 1, elements.get(j));
+                j -= 1;
+            }
+            elements.set(j + 1, key);
+        }
+    }
+
+    // Helper method for selection sort
+    private void selectionSortElements() {
+        int n = elements.size();
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (elements.get(j).getSize() < elements.get(minIndex).getSize()) {
+                    minIndex = j;
+                }
+            } // Swap the found minimum element with the first element of unsorted subarray
+            SortElement temp = elements.get(i);
+            elements.set(i, elements.get(minIndex));
+            elements.set(minIndex, temp);
+        }
+    }
 
 
-    public void sort(String sortName) {
+
+public void sort(String sortName) {
         // Call the appropriate sorting method based on sortName
         if (sortName.equals("Bubble Sort")) {
             bubbleSortElements();
         } else if (sortName.equals("Merge Sort")) {
-            mergeSortElements(0, elements.size() - 1);
+            mergeSortElements(0, elements.size() - 1, elements.size());
         } else {
             // Implement other sorting algorithms here
         }
