@@ -6,31 +6,34 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 public class SortPanel extends JPanel {
 
     private List<SortElement> elements;
+
     public SortPanel() {
         elements = new ArrayList<>();
-            for (int i=6;i>0;i--){
-    Path resourceDirectory =
-            Paths.get ("src","resources");
-    String absolutePath =
-            resourceDirectory.toFile().getAbsolutePath();
-    ImageIcon imgIcon = new  ImageIcon(absolutePath+"/Image" +i+ ".png");
-    SortElement se=new SortElement (imgIcon, i);
-    elements.add (se);
-    repaint ();
-}
-    setPreferredSize (new Dimension(2000, 500));
-            setBackground(Color.WHITE);
-            setBorder (BorderFactory.createLineBorder(null));
+        for (int i = 6; i > 0; i--) {
+            Path resourceDirectory =
+                    Paths.get("src", "resources");
+            String absolutePath =
+                    resourceDirectory.toFile().getAbsolutePath();
+            ImageIcon imgIcon = new ImageIcon(absolutePath + "/Image" + i + ".png");
+            SortElement se = new SortElement(imgIcon, i);
+            elements.add(se);
+            repaint();
         }
-   /* public void addElement(ImageIcon image, int size) {
-        elements.add(new SortElement(image, size));
-        repaint();
+        setPreferredSize(new Dimension(2000, 500));
+        setBackground(Color.WHITE);
+        setBorder(BorderFactory.createLineBorder(null));
     }
-*/
-    // Helper method for bubble sort
+
+    /* public void addElement(ImageIcon image, int size) {
+         elements.add(new SortElement(image, size));
+         repaint();
+     }
+ */
+    // bubble sort metod
     private void bubbleSortElements() {
         int n = elements.size();
         for (int k = 0; k < n - 1; k++) {
@@ -38,7 +41,6 @@ public class SortPanel extends JPanel {
             for (int i = 0; i < n - k - 1; i++) {
                 // srawnenie na elementite po razmer
                 if (elements.get(i).getSize() > elements.get(i + 1).getSize()) {
-                    // Swap elements
                     SortElement temp = elements.get(i);
                     elements.set(i, elements.get(i + 1));
                     elements.set(i + 1, temp);
@@ -50,34 +52,71 @@ public class SortPanel extends JPanel {
             }
         }
     }
-    // Helper method for heap sort (basic implementation)
-       /* private void heapSortElements() {
-            //int n = elements.size(); // Build the heap (rearrange array)
-         for (int i = n / 2 - 1; i >= 0; i--) { heapify(elements, n, i); } // One by one extract an element from heap
-         for (int i = n - 1; i > 0; i--) { // Move current root to end
-              SortElement temp = elements.get(0); elements.set(0, elements.get(i)); elements.set(i, temp); // call max heapify on the reduced heap
-              heapify(elements, i, 0); } } // Heapify function to maintain heap property
-         private void heapify(List<SortElement> arr, int n, int i) { int largest = i; // initialize largest as root
-             int left = 2 * i + 1;
-             left = 2*i + 1
-             int right = 2 * i + 2;
-             right = 2*i + 2 // If left child is larger than root
-             if (left < n && elements.get(left).getSize() > elements.get(largest).getSize()) { largest = left; } // If right child is larger than largest so far
-             if (right < n && elements.get(right).getSize() > elements.get(largest).getSize()) { largest = right; } // If largest is not root
-             if (largest != i) { SortElement temp = elements.get(i); elements.set(i, elements.get(largest)); elements.set(largest, temp); // Recursively heapify the affected sub-tree
-                  heapify(elements, n, largest); } }
-        */
-// Helper method for quicksort (basic implementation)
-        /*private void quickSortElements(int low, int high) { if (low < high) { // Choose the pivot element (here, the last element)
-     int pivotIndex = partition(low, high); quickSortElements(low, pivotIndex - 1); // Sort left subarray
-             quickSortElements(pivotIndex + 1, high); // Sort right subarray
-             } }
 
-             private int partition(int low, int high) { int pivot = elements.get(high).getSize(); int i = low - 1; for (int j = low; j < high; j++) { if (elements.get(j).getSize() <= pivot) { i++; SortElement temp = elements.get(i); elements.set(i, elements.get(j)); elements.set(j, temp); } } SortElement temp = elements.get(i + 1); elements.set(i + 1, elements.get(high)); elements.set(high, temp); return i + 1; }
-      */
-    // Helper method for merge sort (recursive)
+    // heap sort  metod
+    private void heapSortElements() {
+        int n = elements.size();
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(elements, n, i);
+        }
+        for (int i = n - 1; i > 0; i--) {
+            SortElement temp = elements.get(0);
+            elements.set(0, elements.get(i));
+            elements.set(i, temp); //  max heapify
+            heapify(elements, i, 0);
+        }
+    }
 
-    // Merge function for merge sort
+    // Heapify funkciq
+    private void heapify(List<SortElement> arr, int n, int i) {
+        int largest = i; // largest kato koren
+        int left = 2 * i + 1;
+        left = 2 * i + 1;
+        int right = 2 * i + 2;
+        right = 2 * i + 2; // ako lqwo dete>koren
+        if (left < n && elements.get(left).getSize() > elements.get(largest).getSize()) {
+            largest = left;
+        }
+        if (right < n && elements.get(right).getSize() > elements.get(largest).getSize()) {
+            largest = right;
+        } // ako largest ne e koren
+        if (largest != i) {
+            SortElement temp = elements.get(i);
+            elements.set(i, elements.get(largest));
+            elements.set(largest, temp); // heapify
+            heapify(elements, n, largest);
+        }
+    }
+
+
+    // metod quicksort
+    private void quickSortElements(int low, int high) {
+        if (low < high) {
+            int pivotIndex = partition(low, high);
+            quickSortElements(low, pivotIndex - 1);
+            quickSortElements(pivotIndex + 1, high);
+        }
+    }
+
+    private int partition(int low, int high) {
+        int pivot = elements.get(high).getSize();
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (elements.get(j).getSize() <= pivot) {
+                i++;
+                SortElement temp = elements.get(i);
+                elements.set(i, elements.get(j));
+                elements.set(j, temp);
+            }
+        }
+        SortElement temp = elements.get(i + 1);
+        elements.set(i + 1, elements.get(high));
+        elements.set(high, temp);
+        return i + 1;
+    }
+
+
+    // merge sort metod
     private void mergeSortElements(int left, int middle, int right) {
         if (left < right) {
             middle = (left + right) / 2;
@@ -125,7 +164,6 @@ public class SortPanel extends JPanel {
     }
 
 
-
     private void insertionSortElements() {
         int n = elements.size();
         for (int i = 1; i < n; ++i) {
@@ -157,15 +195,20 @@ public class SortPanel extends JPanel {
     }
 
 
-
-public void sort(String sortName) {
+    public void sort(String sortName) {
 
         if (sortName.equals("Bubble Sort")) {
             bubbleSortElements();
         } else if (sortName.equals("Merge Sort")) {
             mergeSortElements(0, elements.size() - 1, elements.size());
-        } else {
-
+        } else if (sortName.equals("Selection Sort")) {
+            selectionSortElements();
+        } else if (sortName.equals("Insertion Sort")) {
+            insertionSortElements();
+        } else if (sortName.equals("Quick Sort")) {
+            quickSortElements(0, 5);
+        } else if (sortName.equals("Heap Sort")) {
+            heapify(elements, elements.size(), 5);
         }
         repaint();
     }
@@ -175,7 +218,7 @@ public void sort(String sortName) {
         super.paintComponent(g);
         int x = 10;
         int y = 10;
-        int gap = 20;
+        int gap = 25;
         for (SortElement element : elements) {
             element.getImage().paintIcon(this, g, x, y);
             x += element.getImage().getIconWidth() + gap;

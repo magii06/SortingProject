@@ -1,4 +1,5 @@
 import javax.swing.ImageIcon;
+
 public class SortElement {
 
     private ImageIcon image;

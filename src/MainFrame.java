@@ -3,6 +3,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+
 public class MainFrame extends JFrame {
 
 
@@ -41,6 +42,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
     public static void main(String[] args) {
         MainFrame MainFrame = new MainFrame();
     }
