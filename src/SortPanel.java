@@ -1,8 +1,6 @@
+import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -23,7 +21,9 @@ public class SortPanel extends JPanel {
     elements.add (se);
     repaint ();
 }
-    setPreferredSize (new Dimension(2000, 500)); setBorder (BorderFactory.createLineBorder(null));
+    setPreferredSize (new Dimension(2000, 500));
+            setBackground(Color.WHITE);
+            setBorder (BorderFactory.createLineBorder(null));
         }
    /* public void addElement(ImageIcon image, int size) {
         elements.add(new SortElement(image, size));
