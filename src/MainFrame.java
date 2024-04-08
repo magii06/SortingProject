@@ -13,22 +13,22 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("Sorting App");
 
-        // Creating the sort panel
+
         sortPanel = new SortPanel();
 
-        // Creating the combo box with sorting options
+
         sortComboBox = new JComboBox<>(new String[]{"Bubble Sort", "Selection Sort", "Insertion Sort", "Merge Sort", "Quick Sort", "Heap Sort"});
 
-        // Create the sort button
+
         sortButton = new JButton("Sort");
 
-        // Add action listener to the sort button
+
         sortButton.addActionListener(e -> {
             String selectedSort = (String) sortComboBox.getSelectedItem();
             sortPanel.sort(selectedSort);
         });
 
-        // Layout the components
+
         JPanel panel = new JPanel();
         panel.add(sortComboBox);
         panel.add(sortButton);

@@ -36,7 +36,7 @@ public class SortPanel extends JPanel {
         for (int k = 0; k < n - 1; k++) {
             boolean swapped = false;
             for (int i = 0; i < n - k - 1; i++) {
-                // Compare elements based on their 'size' attribute
+                // srawnenie na elementite po razmer
                 if (elements.get(i).getSize() > elements.get(i + 1).getSize()) {
                     // Swap elements
                     SortElement temp = elements.get(i);
@@ -46,7 +46,6 @@ public class SortPanel extends JPanel {
                 }
             }
             if (!swapped) {
-                // Array is already sorted
                 break;
             }
         }
@@ -82,14 +81,14 @@ public class SortPanel extends JPanel {
     private void mergeSortElements(int left, int middle, int right) {
         if (left < right) {
             middle = (left + right) / 2;
-            mergeSortElements(left, middle, right); // Sort first half
-            mergeSortElements(middle + 1, middle, right); // Sort second half
-            merge(left, middle, right); // Merge the sorted halves
+            mergeSortElements(left, middle, right);
+            mergeSortElements(middle + 1, middle, right);
+            merge(left, middle, right);
         }
     }
 
     private void merge(int left, int middle, int right) {
-        // Create temporary subarrays
+
         int n1 = middle - left + 1;
         int n2 = right - middle;
         List<SortElement> leftSublist = new ArrayList<>();
@@ -100,7 +99,7 @@ public class SortPanel extends JPanel {
         for (int j = 0; j < n2; j++) {
             rightSublist.add(elements.get(middle + 1 + j));
         }
-        // Merge the temporary arrays
+
         int i = 0, j = 0, k = left;
         while (i < n1 && j < n2) {
             if (leftSublist.get(i).getSize() <= rightSublist.get(j).getSize()) {
@@ -112,7 +111,7 @@ public class SortPanel extends JPanel {
             }
             k++;
         }
-        // Copy remaining elements
+
         while (i < n1) {
             elements.set(k, leftSublist.get(i));
             i++;
@@ -126,12 +125,12 @@ public class SortPanel extends JPanel {
     }
 
 
-    // Helper method for insertion sort
+
     private void insertionSortElements() {
         int n = elements.size();
         for (int i = 1; i < n; ++i) {
             SortElement key = elements.get(i);
-            int j = i - 1; // Move elements of arr[0..i-1], that are greater than key, to one position ahead of their current position
+            int j = i - 1;
             while (j >= 0 && elements.get(j).getSize() > key.getSize()) {
                 elements.set(j + 1, elements.get(j));
                 j -= 1;
@@ -140,7 +139,7 @@ public class SortPanel extends JPanel {
         }
     }
 
-    // Helper method for selection sort
+
     private void selectionSortElements() {
         int n = elements.size();
 
@@ -150,7 +149,7 @@ public class SortPanel extends JPanel {
                 if (elements.get(j).getSize() < elements.get(minIndex).getSize()) {
                     minIndex = j;
                 }
-            } // Swap the found minimum element with the first element of unsorted subarray
+            }
             SortElement temp = elements.get(i);
             elements.set(i, elements.get(minIndex));
             elements.set(minIndex, temp);
@@ -160,15 +159,15 @@ public class SortPanel extends JPanel {
 
 
 public void sort(String sortName) {
-        // Call the appropriate sorting method based on sortName
+
         if (sortName.equals("Bubble Sort")) {
             bubbleSortElements();
         } else if (sortName.equals("Merge Sort")) {
             mergeSortElements(0, elements.size() - 1, elements.size());
         } else {
-            // Implement other sorting algorithms here
+
         }
-        repaint(); // Refresh the visual representation
+        repaint();
     }
 
     @Override
